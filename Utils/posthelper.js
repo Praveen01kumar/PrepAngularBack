@@ -41,7 +41,8 @@ export default class PostHelper {
             title:res?.req?.body?.title,
             description:res?.req?.body?.description,
             categories:res?.req?.body?.categories,
-            image:`${res?.req?.protocol}://${res?.req?.headers?.host}/${res?.req?.file?.path.replace(/\\/g, "/")}`,
+            // image:`${res?.req?.protocol}://${res?.req?.headers?.host}/${res?.req?.file?.path.replace(/\\/g, "/")}`,
+            image:`${res?.req?.file?.filename}`,
         }}); 
     }
 
@@ -50,7 +51,7 @@ export default class PostHelper {
     }
 
     static postList(res, results){
-        res?.status(200)?.json({ data: results });
+        res?.status(200)?.json({ data: results, status:1 });
     }
 
     static errorInGetPost(res){

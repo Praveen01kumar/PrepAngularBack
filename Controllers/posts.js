@@ -26,7 +26,7 @@ export default class postController {
         return await PostHelper.createpostQueryPromise(query, post);
     }
 
-    //getting all users 5
+    //getting all post 5
     postList = (req, res) => {
         this.getAllPostList()
             .then(results => {
@@ -46,6 +46,29 @@ export default class postController {
         const query = PostQuery?.getPostlist();
         return await PostHelper.queryPromise(query);
     }
+
+    //getting post details 4
+    postDetail = (req, res) => {
+        this.getPostById(req?.body?.id)
+            .then(results => {
+                if (results?.length === 0) {
+                    return PostHelper.postNotFound(res);
+                } else {
+                    return PostHelper.postList(res, results);
+                }
+            })
+            .catch(error => {
+                return PostHelper.errorInGetPost(res);
+            });
+    };
+    // Helper functions for getting post details
+    async getPostById(id) {
+        const query = PostQuery?.getPostById(id);
+        return await PostHelper.queryPromise(query);
+    }
+
+
+
 
 
 }

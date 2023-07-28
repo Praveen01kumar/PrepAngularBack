@@ -10,6 +10,9 @@ class PostQuery {
         return `SELECT * FROM blog_post`;
     }
 
+    static getPostById(id) {
+        return `SELECT * FROM blog_post WHERE id = ${id}`;
+    }
 
     // static getUserByUserName(user_name, callback) {
     //     return `SELECT * FROM users WHERE first_name = '${user_name}'`;

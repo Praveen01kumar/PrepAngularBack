@@ -5,9 +5,10 @@ import path from 'path';
 
 const post = new postCont();
 const postRoute = Router();
+const imgdir = '../PrepAngular/src/assets/postimages';
 
 const storage = multer.diskStorage({
-    destination: './asets/image/',
+    destination: '../PrepAngular/src/assets/postimages',
     filename: (req, file, cd) => {
         return cd(null, `post_image_${Date.now()}${path.extname(file.originalname)}`)
     }
@@ -20,5 +21,9 @@ postRoute?.post('/create', upload.single('image'), post?.createPost);
 
 // get post list
 postRoute?.post('/list', post?.postList);
+
+// get post detail
+postRoute?.get('/detail', post?.postDetail);
+
 
 export default postRoute;
