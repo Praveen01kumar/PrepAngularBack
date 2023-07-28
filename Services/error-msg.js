@@ -17,6 +17,9 @@ export default class errorMsg {
    dbCoError = "An Error Accoured in connecting to Database!"
    dbSuccess = "Database Connected Successfully!"
    serverStarted="Server started on port"
+   postCreted="Post Ctreated Successfully!"
+   errorInGetPost = "Error in getting post!"
+   postNotFound = "Post not found!"
 
 
 }

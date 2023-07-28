@@ -1,6 +1,7 @@
 
 export default class raouteDef {
-     user = "/user"
+     user = "/user";
+     post = "/post";
     
  
  
