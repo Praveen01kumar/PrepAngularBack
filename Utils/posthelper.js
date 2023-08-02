@@ -32,7 +32,6 @@ export default class PostHelper {
     }
 
     static postCreateError(res) {
-        console.log(res);
         res?.status(401)?.json({ status: 0, message: errmsg?.someThingWentWrong });
     }
 

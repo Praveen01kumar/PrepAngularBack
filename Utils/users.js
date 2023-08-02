@@ -6,12 +6,12 @@ class UserQuery {
         return `INSERT INTO users SET ?`;
     }
 
-    static getUserByUserName(user_name, callback) {
-        return `SELECT * FROM users WHERE first_name = '${user_name}'`;
+    static getUserByUserName(username, callback) {
+        return `SELECT * FROM users WHERE username = '${username}'`;
     }
 
-    static getUserByEmail(user_name, callback) {
-        return `SELECT * FROM users WHERE email = '${user_name}'`;
+    static getUserByEmail(email, callback) {
+        return `SELECT * FROM users WHERE email = '${email}'`;
     }
 
     static getAllUsers() {
@@ -19,7 +19,7 @@ class UserQuery {
     }
 
     static getUserByEmailOrUsername(){
-        return 'SELECT * FROM users WHERE first_name = ? OR email = ?';
+        return 'SELECT * FROM users WHERE username = ? OR email = ?';
     }
 
     static getUserById(id) {
@@ -31,7 +31,6 @@ class UserQuery {
     }
 
     static updateUserById(userUpade) {
-        console.log(userUpade);
      // return `UPDATE users SET first_name='${userUpade['first_name']}', last_name='${userUpade['last_name']}', email='${userUpade['email']}', phone='${userUpade['phone']}'  password='${userUpade['password']}', address='${userUpade['address']}', city='${userUpade['city']}', state='${userUpade['state']}', zip_code='${userUpade['zip_code']}', country='${userUpade['country']}', WHERE id=${userUpade['id']}`;
         return `UPDATE users SET first_name='${userUpade['first_name']}', last_name='${userUpade['last_name']}', password='${userUpade['password']}' WHERE id=${userUpade['id']}`;
     }

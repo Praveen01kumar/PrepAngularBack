@@ -9,10 +9,10 @@ export default class userController {
 
     // registering 1
     registerUser = (req, res) => {
-        const user = { first_name: (req?.body?.first_name).trim(), last_name: (req?.body?.last_name).trim(), email: (req?.body?.email).trim(), phone: (req?.body?.phone).trim(), password: bcpt?.hashSync(req?.body?.password, 10), address: (req?.body?.address).trim(), city: (req?.body?.city).trim(), state: (req?.body?.state).trim(), zip_code: (req?.body?.zip_code).trim(), country: (req?.body?.country).trim(), };
-        this.getUserByEmailOrUsername(user.first_name, user.email)
+        const user = { first_name: (req?.body?.first_name).trim(), last_name: (req?.body?.last_name).trim(), email: (req?.body?.email).trim(),username:(req?.body?.username).trim(), phone: (req?.body?.phone).trim(), password: bcpt?.hashSync(req?.body?.password, 10), address: (req?.body?.address).trim(), city: (req?.body?.city).trim(), state: (req?.body?.state).trim(), zip_code: (req?.body?.zip_code).trim(), country: (req?.body?.country).trim(), };
+        this.getUserByEmailOrUsername(user.username, user.email)
             .then(allUser => {
-                const matched_User = allUser?.find(el => el?.first_name === user?.first_name);
+                const matched_User = allUser?.find(el => el?.username === user?.username);
                 const matched_Email = allUser?.find(el => el?.email === user?.email);
                 if (matched_User) {
                     return UserHelper.userAlrExist(res);
@@ -30,9 +30,9 @@ export default class userController {
             });
     };
     // Helper functions for registering
-    async getUserByEmailOrUsername(first_name, email) {
+    async getUserByEmailOrUsername(username, email) {
         const query = UserQuery?.getUserByEmailOrUsername();
-        const params = [first_name, email];
+        const params = [username, email];
         return await UserHelper.registerQueryPromise(query, params);
     }
     async addUser(user) {
@@ -43,10 +43,10 @@ export default class userController {
     // logging 2
     userLogin = async (req, res) => {
         try {
-            const { user_name, password } = req?.body;
-            const results = await this.getUserByUserName(user_name);
+            const { username, password } = req?.body;
+            const results = await this.getUserByUserName(username);
             if (results?.length === 0) {
-                const userData = await this.getUserByEmail(user_name);
+                const userData = await this.getUserByEmail(username);
                 if (userData?.length === 0) {
                     return UserHelper.userNotFound(res);
                 }
@@ -54,14 +54,14 @@ export default class userController {
                 if (userByEmail?.length === 0) {
                     return UserHelper.wrongPassword(res);
                 }
-                const token = UserHelper.generateToken(userByEmail[0]?.first_name, userByEmail[0]?.password, 'user');
+                const token = UserHelper.generateToken(userByEmail[0]?.username, userByEmail[0]?.password, userByEmail[0]?.role, userByEmail[0]?.id);
                 return UserHelper.loginSuccess(res, token);
             } else {
                 const userByName = UserHelper.useByNameOrEmail(results, password);
                 if (userByName?.length === 0) {
                     return UserHelper.wrongPassword(res);
                 }
-                const token = UserHelper.generateToken(userByName[0]?.first_name, userByName[0]?.password);
+                const token = UserHelper.generateToken(userByName[0]?.username, userByName[0]?.password, userByName[0]?.role, userByName[0]?.id);
                 return UserHelper.loginSuccess(res, token);
             }
         } catch (error) {
@@ -69,12 +69,12 @@ export default class userController {
         }
     };
     // Helper functions for logging in
-    async getUserByUserName(user_name) {
-        const query = UserQuery?.getUserByUserName(user_name);
+    async getUserByUserName(username) {
+        const query = UserQuery?.getUserByUserName(username);
         return await UserHelper.queryPromise(query);
     }
-    async getUserByEmail(user_name) {
-        const query = UserQuery.getUserByEmail(user_name);
+    async getUserByEmail(email) {
+        const query = UserQuery.getUserByEmail(email);
         return await UserHelper.queryPromise(query);
     }
 
@@ -126,7 +126,6 @@ export default class userController {
                 }
             })
             .catch(error => {
-                console.log(error);
                 return UserHelper.errorInGetUser(res);
             });
     };
@@ -187,7 +186,6 @@ export default class userController {
                 }
             })
             .catch(error => {
-                console.log(error);
                 return UserHelper.errorInGetUser(res);
             });
     };
@@ -212,7 +210,6 @@ export default class userController {
                 }
             })
             .catch(error => {
-                console.log(error);
                 return UserHelper.errorInGetUser(res);
             });
     };

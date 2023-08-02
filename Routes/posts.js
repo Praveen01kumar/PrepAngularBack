@@ -23,7 +23,7 @@ postRoute?.post('/create', upload.single('image'), post?.createPost);
 postRoute?.post('/list', post?.postList);
 
 // get post detail
-postRoute?.get('/detail', post?.postDetail);
+postRoute?.post('/detail', post?.postDetail);
 
 
 export default postRoute;

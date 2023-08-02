@@ -49,8 +49,8 @@ export default class UserHelper {
     static userNotFound(res) {
         res?.status(401)?.json({ status: 0, errors: { message: errmsg?.userNotFound } });
     }
-    static generateToken(username, password, role) {
-        const payload = role ? { username, password, role } : { username, password };
+    static generateToken(username, password, role, id) {
+        const payload = role ? { username, password, role, id } : { username, password };
         return jwt?.sign(payload, env?.config()?.parsed?.JWT_KEY, { expiresIn: '1h' });
     }
     static wrongPassword(res) {
@@ -69,7 +69,7 @@ export default class UserHelper {
         res?.status(404)?.json({ error: errmsg?.errorInGetUser });
     }
     static userList(res, results){
-        res?.status(200)?.json({ data: results });
+        res?.status(200)?.json({ data: results, status:1 });
     }
     static deletedSuccess(res){
         res?.status(200)?.json({ message: errmsg?.userDeletedSuccess });
