@@ -9,7 +9,7 @@ export default class userController {
 
     // registering 1
     registerUser = (req, res) => {
-        const user = { first_name: (req?.body?.first_name).trim(), last_name: (req?.body?.last_name).trim(), email: (req?.body?.email).trim(),username:(req?.body?.username).trim(), phone: (req?.body?.phone).trim(), password: bcpt?.hashSync(req?.body?.password, 10), address: (req?.body?.address).trim(), city: (req?.body?.city).trim(), state: (req?.body?.state).trim(), zip_code: (req?.body?.zip_code).trim(), country: (req?.body?.country).trim(), };
+        const user = { first_name: (req?.body?.first_name).trim(), last_name: (req?.body?.last_name).trim(), email: (req?.body?.email).trim(), username: (req?.body?.username).trim(), phone: (req?.body?.phone).trim(), password: bcpt?.hashSync(req?.body?.password, 10), address: (req?.body?.address).trim(), city: (req?.body?.city).trim(), state: (req?.body?.state).trim(), zip_code: (req?.body?.zip_code).trim(), country: (req?.body?.country).trim(), };
         this.getUserByEmailOrUsername(user.username, user.email)
             .then(allUser => {
                 const matched_User = allUser?.find(el => el?.username === user?.username);
@@ -166,7 +166,7 @@ export default class userController {
         const query = UserQuery?.deleteUserById(id);
         return await UserHelper.queryPromise(query);
     }
-    
+
     //dedeleting by id params 7
     deleteByIdParam = (req, res) => {
         this.getAllUsersDeleteByIdParam()
@@ -218,4 +218,44 @@ export default class userController {
         const query = UserQuery?.deleteMultipleUsers(ids?.join());
         return await UserHelper.queryPromise(query);
     }
+
+    // Editing a user profile image 3
+    editUserProfile = (req, res) => {
+        const updateData = {
+            id: parseInt(req?.body?.id),
+            profile: req?.file?.filename,
+        };
+        this.updateUserProfile(updateData)
+            .then(() => {
+                return UserHelper.updateProfileSuccess(res);
+            })
+            .catch(error => {
+                return UserHelper.errorInGetUser(res);
+            });
+    };
+
+    // Helper functions for editing a user profile image
+    async updateUserProfile(updateData) {
+        const query = UserQuery?.updateUserProfileQr(updateData);
+        return await UserHelper.ProfileQueryPromise(query, updateData);
+    }
+
+    // Editing a user basic information
+    editUserBasic = (req, res) => {
+        const data = [req?.body?.first_name, req?.body?.last_name, req?.body?.gender, req?.body?.created_at, req?.body?.site_url, req?.body?.address, req?.body?.city, req?.body?.state, req?.body?.country, req?.body?.id];
+        this.updateUserBasic(data)
+            .then(() => {
+                return UserHelper.updateProfileSuccess(res);
+            })
+            .catch(error => {
+                return UserHelper.errorInGetUser(res);
+            });
+    };
+
+    // Helper functions for editing a user profile image
+    async updateUserBasic(updateData) {
+        const query = UserQuery?.updateUserBasicQr(updateData[updateData?.length-1]);
+        return await UserHelper.BasicInfoQueryPromise(query, updateData);
+    }
+
 }

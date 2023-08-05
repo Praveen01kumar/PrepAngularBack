@@ -20,6 +20,7 @@ export default class errorMsg {
    postCreted="Post Ctreated Successfully!"
    errorInGetPost = "Error in getting post!"
    postNotFound = "Post not found!"
+   userProfileUpdatedSuccess = "User Profile Updated successfully!"
 
 
 }

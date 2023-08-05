@@ -29,7 +29,5 @@ app.use(route?.post, postRoute);
 // send iamge back to the user
 // app.use('image', express.static('./asets/image/'));
 
-
-
 // server listening
 app.listen(con?.port, () => { console.log(`${errmsg?.serverStarted} ${con?.port}`) });

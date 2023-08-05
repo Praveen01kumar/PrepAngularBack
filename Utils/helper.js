@@ -62,17 +62,45 @@ export default class UserHelper {
     static loginError(res) {
         res?.status(500)?.json({ status: 0, error: errmsg?.errorInLogin });
     }
-    static updateSuccess(res){
+    static updateSuccess(res) {
         res?.status(200)?.json({ message: errmsg?.userUpdatedSuccess });
     }
-    static errorInGetUser(res){
+    static errorInGetUser(res) {
         res?.status(404)?.json({ error: errmsg?.errorInGetUser });
     }
-    static userList(res, results){
-        res?.status(200)?.json({ data: results, status:1 });
+    static userList(res, results) {
+        res?.status(200)?.json({ data: results, status: 1 });
     }
-    static deletedSuccess(res){
+    static deletedSuccess(res) {
         res?.status(200)?.json({ message: errmsg?.userDeletedSuccess });
+    }
+    static updateProfileSuccess(res) {
+        res?.status(200)?.json({ message: errmsg?.userProfileUpdatedSuccess, status: 1 });
+    }
+
+    static ProfileQueryPromise(query, updateData) {
+        return new Promise((resolve, reject) => {
+            dbc?.db?.query(query, [updateData?.profile, updateData?.id], (err, results) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+
+    static BasicInfoQueryPromise(query, updateData) {
+        return new Promise((resolve, reject) => {
+            // const data = [updateData?.first_name, updateData?.last_name, updateData?.gender, updateData?.created_at, updateData?.site_url, updateData?.address, updateData?.city, updateData?.state, updateData?.country, updateData?.id];
+            dbc?.db?.query(query, updateData, (err, results) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
     }
 }
 

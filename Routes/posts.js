@@ -5,7 +5,6 @@ import path from 'path';
 
 const post = new postCont();
 const postRoute = Router();
-const imgdir = '../PrepAngular/src/assets/postimages';
 
 const storage = multer.diskStorage({
     destination: '../PrepAngular/src/assets/postimages',

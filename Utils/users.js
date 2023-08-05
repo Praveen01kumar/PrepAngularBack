@@ -31,13 +31,22 @@ class UserQuery {
     }
 
     static updateUserById(userUpade) {
-     // return `UPDATE users SET first_name='${userUpade['first_name']}', last_name='${userUpade['last_name']}', email='${userUpade['email']}', phone='${userUpade['phone']}'  password='${userUpade['password']}', address='${userUpade['address']}', city='${userUpade['city']}', state='${userUpade['state']}', zip_code='${userUpade['zip_code']}', country='${userUpade['country']}', WHERE id=${userUpade['id']}`;
         return `UPDATE users SET first_name='${userUpade['first_name']}', last_name='${userUpade['last_name']}', password='${userUpade['password']}' WHERE id=${userUpade['id']}`;
     }
 
     static deleteMultipleUsers(id) {
         return `DELETE FROM users WHERE id IN (${id});`;
     }
+
+    static updateUserProfileQr(updateData) {
+        return `UPDATE users SET profile = ? WHERE id = ${updateData?.id};`;
+    }
+
+    static updateUserBasicQr(updateData) {
+        return `UPDATE users SET first_name = ?, last_name = ?, gender = ?, created_at = ?, site_url = ?, address = ?, city = ?, state = ?, country = ? WHERE id = ${updateData};`;
+    }
+
+
 
 }
 
