@@ -41,7 +41,9 @@ const upload = multer({ storage: storage });
 userRoute?.put('/edit_profile', upload.single('profile'), user?.editUserProfile);
 
 // Route for update user basic information 
-
 userRoute?.put('/edit_basic', user?.editUserBasic);
+
+// Route for update user password 
+userRoute?.put('/change_pass', user?.chaPass);
 
 export default userRoute;

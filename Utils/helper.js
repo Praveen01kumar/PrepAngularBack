@@ -69,7 +69,7 @@ export default class UserHelper {
         res?.status(404)?.json({ error: errmsg?.errorInGetUser });
     }
     static userList(res, results) {
-        res?.status(200)?.json({ data: results, status: 1 });
+        res?.status(200)?.json({ data: results, results:results[0]?.password, status: 1 });
     }
     static deletedSuccess(res) {
         res?.status(200)?.json({ message: errmsg?.userDeletedSuccess });
@@ -92,7 +92,6 @@ export default class UserHelper {
 
     static BasicInfoQueryPromise(query, updateData) {
         return new Promise((resolve, reject) => {
-            // const data = [updateData?.first_name, updateData?.last_name, updateData?.gender, updateData?.created_at, updateData?.site_url, updateData?.address, updateData?.city, updateData?.state, updateData?.country, updateData?.id];
             dbc?.db?.query(query, updateData, (err, results) => {
                 if (err) {
                     reject(err);
@@ -102,5 +101,22 @@ export default class UserHelper {
             });
         });
     }
+
+    static userPasswodUpdate(res,data) {
+        res?.status(200)?.json({ new_password:data, message: errmsg?.userPasswordSuccess, status: 1 });
+    }
+
+    static PasswordPromise(query, updateData) {
+        return new Promise((resolve, reject) => {
+            dbc?.db?.query(query, updateData, (err, results) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(results);
+                }
+            });
+        });
+    }
+
 }
 

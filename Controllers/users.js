@@ -242,7 +242,18 @@ export default class userController {
 
     // Editing a user basic information
     editUserBasic = (req, res) => {
-        const data = [req?.body?.first_name, req?.body?.last_name, req?.body?.gender, req?.body?.created_at, req?.body?.site_url, req?.body?.address, req?.body?.city, req?.body?.state, req?.body?.country, req?.body?.id];
+        const data = [
+            req?.body?.first_name, 
+            req?.body?.last_name, 
+            req?.body?.gender, 
+            req?.body?.birth_date, 
+            req?.body?.site_url, 
+            req?.body?.address, 
+            req?.body?.city, 
+            req?.body?.state, 
+            req?.body?.country, 
+            req?.body?.id,
+        ];
         this.updateUserBasic(data)
             .then(() => {
                 return UserHelper.updateProfileSuccess(res);
@@ -258,4 +269,25 @@ export default class userController {
         return await UserHelper.BasicInfoQueryPromise(query, updateData);
     }
 
+     // Update a user password
+     chaPass = (req, res) => {
+        const data = [
+            bcpt?.hashSync(req?.body?.new_password, 10),
+            req?.body?.id,
+        ];
+        this.updatePass(data)
+            .then(() => {
+                return UserHelper.userPasswodUpdate(res, req?.body?.new_password);
+            })
+            .catch(error => {
+                return UserHelper.errorInGetUser(res);
+            });
+    };
+
+    // Helper functions for editing a user profile image
+    async updatePass(updateData) {
+        const query = UserQuery?.updatePasswordQr(updateData[updateData?.length-1]);
+        return await UserHelper.PasswordPromise(query, updateData);
+    }
+    
 }

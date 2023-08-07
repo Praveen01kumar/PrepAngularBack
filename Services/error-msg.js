@@ -21,6 +21,6 @@ export default class errorMsg {
    errorInGetPost = "Error in getting post!"
    postNotFound = "Post not found!"
    userProfileUpdatedSuccess = "User Profile Updated successfully!"
-
+   userPasswordSuccess = "User Password Updated successfully!"
 
 }

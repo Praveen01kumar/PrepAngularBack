@@ -43,10 +43,12 @@ class UserQuery {
     }
 
     static updateUserBasicQr(updateData) {
-        return `UPDATE users SET first_name = ?, last_name = ?, gender = ?, created_at = ?, site_url = ?, address = ?, city = ?, state = ?, country = ? WHERE id = ${updateData};`;
+        return `UPDATE users SET first_name = ?, last_name = ?, gender = ?, birth_date = ?, site_url = ?, address = ?, city = ?, state = ?, country = ? WHERE id = ${updateData};`;
     }
 
-
+    static updatePasswordQr(updateData) {
+        return `UPDATE users SET password = ? WHERE id = ${updateData};`;
+    }
 
 }
 
