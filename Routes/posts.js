@@ -1,22 +1,12 @@
 import { Router } from 'express';
 import postCont from '../Controllers/posts.js';
-import multer from 'multer';
-import path from 'path';
+import { blog_upload } from '../Services/store.js';
 
 const post = new postCont();
 const postRoute = Router();
 
-const storage = multer.diskStorage({
-    destination: '../PrepAngular/src/assets/postimages',
-    filename: (req, file, cd) => {
-        return cd(null, `post_image_${Date.now()}${path.extname(file.originalname)}`)
-    }
-});
-
-const upload = multer({ storage: storage });
-
 // Route for create a new user
-postRoute?.post('/create', upload.single('image'), post?.createPost);
+postRoute?.post('/create', blog_upload.single('image'), post?.createPost);
 
 // get post list
 postRoute?.post('/list', post?.postList);

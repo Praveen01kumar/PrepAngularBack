@@ -1,7 +1,6 @@
 import { Router } from 'express';
 import userCont from '../Controllers/users.js';
-import multer from 'multer';
-import path from 'path';
+import { profile_upload as upload } from '../Services/store.js';
 
 const user = new userCont();
 const userRoute = Router();
@@ -30,13 +29,6 @@ userRoute?.delete('/deleteusers', user?.deleteUsers);
 // Route for update single user by user id in params 
 userRoute?.put('/edit', user?.editUser);
 
-const storage = multer.diskStorage({
-    destination: '../PrepAngular/src/assets/avatar',
-    filename: (req, file, cd) => {
-        return cd(null, `profile_image_${Date.now()}${path.extname(file.originalname)}`)
-    }
-});
-const upload = multer({ storage: storage });
 // Route for update user profile image
 userRoute?.put('/edit_profile', upload.single('profile'), user?.editUserProfile);
 
